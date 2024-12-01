@@ -4,14 +4,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-class Worker(AbstractUser):
-    class Position(models.TextChoices):
-        DEVELOPER = "DEVELOPER", "Developer"
-        MANAGER = "MANAGER", "Project Manager"
-        QA = "QA", "Quality assurance"
-        DESIGNER = "DESIGNER", "Designer"
-        DEVOPS = "DEVOPS", "DevOps"
+class Position(models.TextChoices):
+    DEVELOPER = "DEVELOPER", "Developer"
+    MANAGER = "MANAGER", "Project Manager"
+    QA = "QA", "Quality assurance"
+    DESIGNER = "DESIGNER", "Designer"
+    DEVOPS = "DEVOPS", "DevOps"
 
+
+class Worker(AbstractUser):
+    email = models.EmailField(unique=True)
     position = models.CharField(
         max_length=20,
         choices=Position.choices,
