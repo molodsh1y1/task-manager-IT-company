@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from .forms import RegisterForm
+from .models import Team, TeamMembership
 
 
 class SignUpView(generic.FormView):
@@ -16,3 +17,8 @@ class SignUpView(generic.FormView):
         user = form.save()
         login(self.request, user)
         return super().form_valid(form)
+
+
+class TeamMembershipList(generic.CreateView):
+    model = TeamMembership
+    template_name = "accounts/"

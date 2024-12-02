@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+	<div class="d-flex justify-content-end">
+		<a
+				href="{% url 'todo:task-create' %}"
+				class="btn btn-primary"
+		>
+			Create Task</a>
+		</div>
+	{% if object_list %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">№</th>
+					<th scope="col">Title</th>
+					<th scope="col">Is Completed</th>
+					<th scope="col">DeadLine</th>
+					<th scope="col">View</th>
+					<th scope="col">Edit</th>
+					<th scope="col">Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for task in object_list %}
+					<tr>
+						<th scope="row">{{ forloop.counter }}</th>
+						<td>{{ task.title }}</td>
+						<td>{% if task.is_completed %}Completed{% else %}Not completed{% endif %}</td>
+						<td>
+							{% if task.deadline %}
+								{{ task.deadline|date:"Y-m-d H:i" }}
+							{% else %}
+								There is no deadline
+							{% endif %}
+						</td>
+						<td><a href="{% url 'todo:task-detail' pk=task.id %}" class="btn btn-info">View</a></td>
+						<td><a href="{% url 'todo:task-update' pk=task.id %}" class="btn btn-outline-secondary">Edit</a></td>
+						<td><a href="{% url 'todo:task-delete' pk=task.id %}" class="btn btn-danger">Delete</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>There is no tasks</p>
+	{% endif %}
+{% endblock %}
