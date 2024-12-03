@@ -17,13 +17,30 @@ class CreateTaskForm(forms.ModelForm):
             "team",
         ]
         widgets = {
-            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter task title"}),
-            "description": forms.Textarea(attrs={"class": "form-control", "rows": 4, "placeholder": "Task description"}),
-            "deadline": forms.DateTimeInput(attrs={"class": "form-control", "type": "datetime-local"}),
+            "title": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter task title"
+                }
+            ),
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                    "placeholder": "Task description"
+                }
+            ),
+            "deadline": forms.DateTimeInput(
+                attrs={"class": "form-control", "type": "datetime-local"}
+            ),
             "priority": forms.Select(attrs={"class": "form-select"}),
             "task_type": forms.Select(attrs={"class": "form-select"}),
             "tags": forms.SelectMultiple(attrs={"class": "form-control"}),
-            "is_completed": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            "is_completed": forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input"
+                }
+            ),
             "team": forms.Select(attrs={"class": "form-select"}),
         }
 
@@ -37,6 +54,10 @@ class TaskTitleSearchForm(forms.Form):
     title = forms.CharField(
         max_length=255,
         required=False,
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Search by task title"}),
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Search by task title"
+            }
+        ),
     )
-    

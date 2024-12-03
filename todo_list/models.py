@@ -1,4 +1,4 @@
-from datetime import timezone, datetime
+from datetime import datetime
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -102,7 +102,12 @@ class Task(models.Model):
     def is_deadline_passed(self):
         if not self.deadline:
             return False
-        deadline_datetime = datetime.combine(self.deadline, datetime.min.time())
+
+        deadline_datetime = datetime.combine(
+            self.deadline,
+            datetime.min.time()
+        )
+
         now_naive = datetime.now()
         return deadline_datetime < now_naive
 

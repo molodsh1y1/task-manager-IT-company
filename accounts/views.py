@@ -1,4 +1,4 @@
-from django.contrib.auth import login, get_user_model
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -6,7 +6,7 @@ from django.views import generic
 
 from todo_list.forms import TaskTitleSearchForm
 from .forms import RegisterForm
-from .models import Team, TeamMembership
+from .models import Team
 from todo_list.models import Task
 
 

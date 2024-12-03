@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.db.models import Q
 
-from .models import Tag, Task, Project
+from .models import Task, Project
 from .forms import CreateTaskForm, TaskTitleSearchForm
 from .mixins import UserAssignedFormMixin
 
@@ -83,7 +83,11 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("todo:task-list")
 
 
-class ToggleTaskStatusView(LoginRequiredMixin, UserAssignedFormMixin, generic.View):
+class ToggleTaskStatusView(
+    LoginRequiredMixin,
+    UserAssignedFormMixin,
+    generic.View
+):
     def post(self, request, pk, *args, **kwargs):
         task = get_object_or_404(Task, pk=pk)
         task.is_completed = not task.is_completed
