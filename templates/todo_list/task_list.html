@@ -15,7 +15,6 @@
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">Title</th>
-					<th scope="col">Is Completed</th>
 					<th scope="col">DeadLine</th>
 					<th scope="col">View</th>
 					<th scope="col">Edit</th>
@@ -30,7 +29,6 @@
 						<td class="{% if task.is_completed %}text-decoration-line-through{% endif %}">
 							{{ task.title }}
 						</td>
-						<td>{% if task.is_completed %}Completed{% else %}Not completed{% endif %}</td>
 						<td>
 							{% if task.deadline %}
 								{{ task.deadline|date:"Y-m-d H:i" }}
@@ -38,9 +36,9 @@
 								There is no deadline
 							{% endif %}
 						</td>
-						<td><a href="{% url 'todo:task-detail' pk=task.id %}" class="btn btn-info">View</a></td>
-						<td><a href="{% url 'todo:task-update' pk=task.id %}" class="btn btn-outline-secondary">Edit</a></td>
-						<td><a href="{% url 'todo:task-delete' pk=task.id %}" class="btn btn-danger">Delete</a></td>
+						<td><a href="{% url 'todo:task-detail' pk=task.id %}"><i class="fas fa-search"></i></a></td>
+						<td><a href="{% url 'todo:task-update' pk=task.id %}"><i class="fas fa-edit"></i> </a></td>
+						<td><a href="{% url 'todo:task-delete' pk=task.id %}"><i class="fas fa-trash"></i></a></td>
 						<td>
 							{% if task.is_completed %}
 								✔

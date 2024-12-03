@@ -31,10 +31,14 @@ class TaskDetailView(
     model = Task
 
     def get_queryset(self):
-        return Task.objects.filter(
+        queryset = Task.objects.filter(
             Q(assignees=self.request.user) |
-            Q(created_by=self.request.user)
-        )
+            Q(created_by=self.request.user) |
+            Q(team__members=self.request.user)
+        ).distinct()
+
+        queryset = queryset.select_related("created_by")
+        return queryset
 
 
 class TaskCreateView(

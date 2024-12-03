@@ -1,5 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	{{ task }}
+ <div class="row justify-content-center">
+	<div class="col-lg-8 col-md-10 col-sm-12">
+			<div class="card shadow-lg data-card">
+					<div class="card-body">
+							<h2 class="data-heading text-center mb-4">{{ object }}</h2>
+
+							<div class="data-row mb-3">
+									<strong>Object ID:</strong>
+									<span class="text-muted">{{ object.id }}</span>
+							</div>
+
+							<div class="data-row mb-3">
+									<strong>Object Team:</strong>
+									<span class="text-muted">{{ object.team }}</span>
+							</div>
+
+							<div class="data-row mb-3">
+									<strong>Created by:</strong>
+									<span class="text-muted">{{ object.created_by.username }}</span>
+							</div>
+
+							<div class="data-row mb-3">
+									<strong>Deadline:</strong>
+									<span class="text-muted">{{ object.deadline }}</span>
+							</div>
+
+							<div class="data-row mb-3">
+									<strong>Priority:</strong>
+									<span class="badge bg-info">{{ object.priority }}</span>
+							</div>
+
+							<div class="data-row mb-3">
+									<strong>Status:</strong>
+									<span class="badge bg-success">{{ object.status }}</span>
+							</div>
+
+							<div class="data-row mb-3">
+									<strong>Task Type:</strong>
+									<span class="badge bg-warning">{{ object.task_type }}</span>
+							</div>
+							<a href="{% url 'todo:task-update' pk=task.id %}" class="btn btn-secondary">Update Task</a>
+							<a href="{% url 'todo:task-delete' pk=task.id %}" class="btn btn-danger">Delete Task</a>
+					</div>
+			</div>
+	</div>
+</div>
 {% endblock %}
