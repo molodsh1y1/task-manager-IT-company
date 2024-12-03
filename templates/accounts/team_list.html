@@ -1,30 +1,32 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="container mt-4">
-    <h1 class="text-center">Your Teams</h1>
+  <h1 class="text-center">Your Teams</h1>
 
-    {% if object_list %}
-        <div class="row">
-            {% for team in object_list %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ team.name }}</h5>
-                            <p class="card-text">
-                                <strong>Created At:</strong> {{ team.created_at|date:"d M Y" }}<br>
-                                <strong>Members:</strong> {{ team.get_member_count }}
-                            </p>
-                            <a href="{% url 'accounts:team-detail' team.id %}" class="btn btn-primary btn-sm">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+  {% if object_list %}
+  <div class="row">
+    {% for team in object_list %}
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ team.name }}</h5>
+          <p class="card-text">
+            <strong>Created At:</strong> {{ team.created_at|date:"d M Y" }}<br />
+            <strong>Members:</strong> {{ team.get_member_count }}
+          </p>
+          <a
+            href="{% url 'accounts:team-detail' team.id %}"
+            class="btn btn-primary btn-sm"
+            >View Details</a
+          >
         </div>
-    {% else %}
-        <div class="alert alert-warning text-center" role="alert">
-            You are not a member of any team yet.
-        </div>
-    {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="alert alert-warning text-center" role="alert">
+    You are not a member of any team yet.
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

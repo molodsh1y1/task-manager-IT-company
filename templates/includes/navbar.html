@@ -1,12 +1,22 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3" style="margin-bottom: 20px;">
+<nav
+  class="navbar navbar-expand-lg navbar-dark bg-dark mb-3"
+  style="margin-bottom: 20px"
+>
   <div class="container-fluid">
     <!-- Navbar brand -->
     <a class="navbar-brand" href="{% url 'todo:home' %}">Home</a>
 
     <!-- Toggle button -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <i class="fas fa-bars text-light"></i>
     </button>
 
@@ -15,10 +25,18 @@
       <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'task-list' %}active{% endif %}" href="{% url 'todo:task-list' %}">Tasks</a>
+          <a
+            class="nav-link {% if request.resolver_match.url_name == 'task-list' %}active{% endif %}"
+            href="{% url 'todo:task-list' %}"
+            >Tasks</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'team-list' %}active{% endif %}" href="{% url 'accounts:team-list' %}">Teams</a>
+          <a
+            class="nav-link {% if request.resolver_match.url_name == 'team-list' %}active{% endif %}"
+            href="{% url 'accounts:team-list' %}"
+            >Teams</a
+          >
         </li>
       </ul>
 
@@ -33,10 +51,18 @@
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'accounts:login' %}">Login</a>
+          <a
+            class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}"
+            href="{% url 'accounts:login' %}"
+            >Login</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'sign_up' %}active{% endif %}" href="{% url 'accounts:sign_up' %}">Sign Up</a>
+          <a
+            class="nav-link {% if request.resolver_match.url_name == 'sign_up' %}active{% endif %}"
+            href="{% url 'accounts:sign_up' %}"
+            >Sign Up</a
+          >
         </li>
         {% endif %}
       </ul>

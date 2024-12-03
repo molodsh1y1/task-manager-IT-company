@@ -1,7 +1,4 @@
-{% extends 'base.html' %}
-{% load crispy_forms_filters %}
-
-{% block content %}
+{% extends 'base.html' %} {% load crispy_forms_filters %} {% block content %}
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -11,8 +8,7 @@
         </div>
         <div class="card-body">
           <form method="post" novalidate>
-            {% csrf_token %}
-            {{ form|crispy }}
+            {% csrf_token %} {{ form|crispy }}
             <div class="text-center mt-3">
               <button type="submit" class="btn btn-primary">
                 {{ object|yesno:"Update Task,Create Task" }}

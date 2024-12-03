@@ -1,24 +1,26 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="text-center text-danger">
+        Are you sure you want to delete this task?
+      </h2>
+      <h3 class="card-title">{{ task.title }}</h3>
+      <p><strong>Description:</strong> {{ task.description }}</p>
+      <p><strong>Created by:</strong> {{ task.creator }}</p>
+      <p><strong>Assigned to:</strong> {{ task.assignees.all|join:", " }}</p>
+      <p><strong>Deadline:</strong> {{ task.deadline }}</p>
 
-{% block content %}
-  <div class="container mt-5">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h2 class="text-center text-danger">Are you sure you want to delete this task?</h2>
-        <h3 class="card-title">{{ task.title }}</h3>
-        <p><strong>Description:</strong> {{ task.description }}</p>
-        <p><strong>Created by:</strong> {{ task.creator }}</p>
-        <p><strong>Assigned to:</strong> {{ task.assignees.all|join:", " }}</p>
-        <p><strong>Deadline:</strong> {{ task.deadline }}</p>
-
-        <div class="d-flex justify-content-between mt-4">
-          <form method="post" class="d-inline">
-            {% csrf_token %}
-            <input type="submit" value="Delete" class="btn btn-danger btn-lg">
-          </form>
-          <a href="{% url 'todo:task-list' %}" class="btn btn-secondary btn-lg">Cancel</a>
-        </div>
+      <div class="d-flex justify-content-between mt-4">
+        <form method="post" class="d-inline">
+          {% csrf_token %}
+          <input type="submit" value="Delete" class="btn btn-danger btn-lg" />
+        </form>
+        <a href="{% url 'todo:task-list' %}" class="btn btn-secondary btn-lg"
+          >Cancel</a
+        >
       </div>
     </div>
   </div>
+</div>
 {% endblock %}

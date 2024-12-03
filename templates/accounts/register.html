@@ -1,27 +1,22 @@
-{% extends 'base_account.html' %}
-{% load crispy_forms_filters %}
+{% extends 'base_account.html' %} {% load crispy_forms_filters %} {% block title
+%}
+<title>Register</title>
+{% endblock %} {% block content %}
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card p-3 shadow-lg">
+    <h2 class="text-center mb-3">Register</h2>
+    <form method="post" class="form-signin border border-primary rounded p-4">
+      {% csrf_token %} {{ form|crispy }}
 
-{% block title %}
-    <title>Register</title>
-{% endblock %}
+      <div class="text-center mt-3">
+        <button type="submit" class="btn btn-primary w-100">Register</button>
+      </div>
 
-{% block content %}
-    <div class="d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card p-3 shadow-lg">
-            <h2 class="text-center mb-3">Register</h2>
-            <form method="post" class="form-signin border border-primary rounded p-4">
-                {% csrf_token %}
-                {{ form|crispy }}
-
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary w-100">Register</button>
-                </div>
-
-                <div class="text-center mt-3">
-                    <p>Already have an account?</p>
-                    <a href="{% url 'accounts:login' %}" class="btn btn-link">Login</a>
-                </div>
-            </form>
-        </div>
-    </div>
+      <div class="text-center mt-3">
+        <p>Already have an account?</p>
+        <a href="{% url 'accounts:login' %}" class="btn btn-link">Login</a>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
