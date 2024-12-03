@@ -1,40 +1,5 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	{% if object %}
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">№</th>
-					<th scope="col">Title</th>
-					<th scope="col">Is Completed</th>
-					<th scope="col">DeadLine</th>
-					<th scope="col">Team</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">{{ object.id }}</th>
-					<td>{{ object.title }}</td>
-					<td>{% if task.is_completed %}Completed{% else %}Not completed{% endif %}</td>
-					<td>
-						{% if object.deadline %}
-							{{ object.deadline|date:"Y-m-d H:i" }}
-						{% else %}
-							There is no deadline
-						{% endif %}
-					</td>
-					<td>
-						{% if object.team %}
-							{{ object.team.name }}
-						{% else %}
-							There is no team
-						{% endif %}
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	{% else %}
-		<p>There is no tasks</p>
-	{% endif %}
+	{{ task }}
 {% endblock %}

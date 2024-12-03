@@ -5,6 +5,7 @@ from django.db.models import Q
 
 from .models import Tag, Task, Project
 from .forms import CreateTaskForm
+from .mixins import UserAssignedFormMixin
 
 
 class HomePageView(generic.TemplateView):
@@ -17,11 +18,16 @@ class TaskList(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Task.objects.filter(
             Q(assignees=self.request.user) |
-            Q(created_by=self.request.user)
-        )
+            Q(created_by=self.request.user) |
+            Q(team__members=self.request.user)
+        ).distinct()
 
 
-class TaskDetailView(LoginRequiredMixin, generic.DetailView):
+class TaskDetailView(
+    LoginRequiredMixin,
+    UserAssignedFormMixin,
+    generic.DetailView
+):
     model = Task
 
     def get_queryset(self):
@@ -31,17 +37,21 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
         )
 
 
-class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+class TaskCreateView(
+    LoginRequiredMixin,
+    UserAssignedFormMixin,
+    generic.CreateView
+):
     form_class = CreateTaskForm
     template_name = "todo_list/task_form.html"
     success_url = reverse_lazy("todo:task-list")
 
-    def form_valid(self, form):
-        form.instance.created_by = self.request.user
-        return super().form_valid(form)
 
-
-class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+class TaskUpdateView(
+    LoginRequiredMixin,
+    UserAssignedFormMixin,
+    generic.UpdateView
+):
     model = Task
     form_class = CreateTaskForm
     success_url = reverse_lazy("todo:task-list")

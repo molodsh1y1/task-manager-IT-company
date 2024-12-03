@@ -26,3 +26,8 @@ class CreateTaskForm(forms.ModelForm):
             "is_completed": forms.CheckboxInput(attrs={"class": "form-check-input"}),
             "team": forms.Select(attrs={"class": "form-select"}),
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+        self.fields["team"].queryset = Team.objects.filter(members=user)

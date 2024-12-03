@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}<title>To-Do App - Home</title>{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Welcome to the To-Do App</h1>
+    <p class="text-center mb-5">
+        Manage your tasks efficiently and effectively with our To-Do App.
+    </p>
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">Developers</h3>
+                    <p class="card-text">Our team of developers are skilled in various programming languages and frameworks to build robust applications.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">Project Managers</h3>
+                    <p class="card-text">Our project managers ensure that all tasks are organized and deadlines are met.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">QA Specialists</h3>
+                    <p class="card-text">Our QA specialists ensure that our products meet the highest standards of quality.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h3 class="mb-3">How it Works</h3>
+            <p>Each team member can create tasks, assign them to other team members, and mark them as completed before the deadline. Use tags to organize your tasks effectively.</p>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <h3 class="mb-3">Additional Features</h3>
+            <ul>
+                <li>Track completed and pending tasks for each employee</li>
+                <li>Use tags for better organization of tasks</li>
+                <li>Support for multiple projects and teams</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
