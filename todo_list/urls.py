@@ -6,6 +6,7 @@ from .views import (
     TaskCreateView,
     TaskDeleteView,
     TaskUpdateView,
+    ToggleTaskStatusView,
 )
 
 
@@ -18,4 +19,5 @@ urlpatterns = [
     path("tasks/create/", TaskCreateView.as_view(), name="task-create"),
     path("tasks/<int:pk>/delete/", TaskDeleteView.as_view(), name="task-delete"),
     path("tasks/<int:pk>/update/", TaskUpdateView.as_view(), name="task-update"),
+    path("tasks/<int:pk>/toggle-status/", ToggleTaskStatusView.as_view(), name="toggle-status"),
 ]

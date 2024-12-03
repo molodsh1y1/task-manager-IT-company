@@ -40,11 +40,7 @@
 						<td><a href="{% url 'todo:task-update' pk=task.id %}"><i class="fas fa-edit"></i> </a></td>
 						<td><a href="{% url 'todo:task-delete' pk=task.id %}"><i class="fas fa-trash"></i></a></td>
 						<td>
-							{% if task.is_completed %}
-								✔
-							{% else %}
-								✖
-							{% endif %}
+							{% include 'todo_list/task_toggle_status.html' %}
 						</td>
 					</tr>
 				{% endfor %}

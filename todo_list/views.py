@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.db.models import Q
@@ -65,3 +66,11 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     template_name = "todo_list/task_confirm_delete.html"
     success_url = reverse_lazy("todo:task-list")
+
+
+class ToggleTaskStatusView(LoginRequiredMixin, UserAssignedFormMixin, generic.View):
+    def post(self, request, pk, *args, **kwargs):
+        task = get_object_or_404(Task, pk=pk)
+        task.is_completed = not task.is_completed
+        task.save()
+        return redirect("todo:task-list")
