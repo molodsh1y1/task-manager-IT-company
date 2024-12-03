@@ -30,10 +30,16 @@
 							{{ task.title }}
 						</td>
 						<td>
-							{% if task.deadline %}
-								{{ task.deadline|date:"Y-m-d H:i" }}
+							{% if task.is_deadline_passed %}
+									<div class="d-flex align-items-center">
+											<i class="bi bi-exclamation-circle-fill me-2 text-danger"></i>
+											<span class="text-danger">Deadline has passed.</span>
+									</div>
 							{% else %}
-								There is no deadline
+									<div class="d-flex align-items-center">
+											<i class="bi bi-check-circle-fill me-2 text-success"></i>
+											<span class="text-success">Deadline: {{ task.deadline }}</span>
+									</div>
 							{% endif %}
 						</td>
 						<td><a href="{% url 'todo:task-detail' pk=task.id %}"><i class="fas fa-search"></i></a></td>

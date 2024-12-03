@@ -1,3 +1,5 @@
+from datetime import timezone, datetime
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from accounts.models import Team
@@ -87,6 +89,12 @@ class Task(models.Model):
         get_user_model(),
         on_delete=models.CASCADE,
     )
+
+    @property
+    def is_deadline_passed(self):
+        deadline_datetime = datetime.combine(self.deadline, datetime.min.time())
+        now_naive = datetime.now()
+        return deadline_datetime < now_naive
 
     def __str__(self):
         return self.title
