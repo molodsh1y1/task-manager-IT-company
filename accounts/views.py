@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
+from todo_list.forms import TaskTitleSearchForm
 from .forms import RegisterForm
 from .models import Team, TeamMembership
 from todo_list.models import Task
@@ -42,4 +43,17 @@ class TeamTaskDetailView(LoginRequiredMixin, generic.ListView):
         if not team.members.filter(pk=self.request.user.pk).exists():
             raise PermissionError("You are not a member of this team")
 
+        title = self.request.GET.get("title")
+
+        if title:
+            return Task.objects.filter(team=team, title__icontains=title)
+
         return Task.objects.filter(team=team)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        title = self.request.GET.get("title", "")
+
+        context["search_form"] = TaskTitleSearchForm(initial={"title": title})
+        return context

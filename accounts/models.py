@@ -31,6 +31,12 @@ class Team(models.Model):
         related_name="teams",
         through="TeamMembership"
     )
+    owner = models.ForeignKey(
+        "Worker",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="owned_teams",
+    )
 
     def get_member_count(self) -> int:
         return self.members.count()

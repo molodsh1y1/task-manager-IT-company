@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 
 {% block content %}
-	<div class="d-flex justify-content-end">
-		<a
-				href="{% url 'todo:task-create' %}"
-				class="btn btn-primary"
-		>
-			Create Task
-		</a>
+	<div class="d-flex justify-content-between align-items-center">
+			<div>
+					<form method="get">
+							{{ search_form|crispy }}
+							<input type="submit" value="Search" class="btn btn-secondary">
+					</form>
+			</div>
+			<div>
+					<a href="{% url 'todo:task-create' %}" class="btn btn-primary">
+							Create Task
+					</a>
+			</div>
 	</div>
 	{% if object_list %}
 		<table class="table">

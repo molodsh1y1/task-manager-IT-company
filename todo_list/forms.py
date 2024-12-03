@@ -31,3 +31,12 @@ class CreateTaskForm(forms.ModelForm):
         user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
         self.fields["team"].queryset = Team.objects.filter(members=user)
+
+
+class TaskTitleSearchForm(forms.Form):
+    title = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Search by task title"}),
+    )
+    

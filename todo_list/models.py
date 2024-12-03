@@ -45,6 +45,14 @@ class Project(models.Model):
         default=Status.IN_PROGRESS,
     )
 
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="projects"
+    )
+
     def __str__(self):
         return self.name
 
@@ -92,6 +100,8 @@ class Task(models.Model):
 
     @property
     def is_deadline_passed(self):
+        if not self.deadline:
+            return False
         deadline_datetime = datetime.combine(self.deadline, datetime.min.time())
         now_naive = datetime.now()
         return deadline_datetime < now_naive

@@ -1,13 +1,12 @@
-from datetime import date
-
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.db.models import Q
 
 from .models import Tag, Task, Project
-from .forms import CreateTaskForm
+from .forms import CreateTaskForm, TaskTitleSearchForm
 from .mixins import UserAssignedFormMixin
 
 
@@ -15,15 +14,29 @@ class HomePageView(generic.TemplateView):
     template_name = "todo_list/index.html"
 
 
-class TaskList(LoginRequiredMixin, generic.ListView):
+class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
 
     def get_queryset(self):
-        return Task.objects.filter(
+        title = self.request.GET.get("title")
+
+        queryset = Task.objects.filter(
             Q(assignees=self.request.user) |
             Q(created_by=self.request.user) |
             Q(team__members=self.request.user)
         ).distinct()
+
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(TaskListView, self).get_context_data(**kwargs)
+
+        title = self.request.GET.get("title", "")
+
+        context["search_form"] = TaskTitleSearchForm(initial={"title": title})
+        return context
 
 
 class TaskDetailView(
@@ -75,4 +88,13 @@ class ToggleTaskStatusView(LoginRequiredMixin, UserAssignedFormMixin, generic.Vi
         task = get_object_or_404(Task, pk=pk)
         task.is_completed = not task.is_completed
         task.save()
-        return redirect("todo:task-list")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class ProjectListView(LoginRequiredMixin, generic.ListView):
+    model = Project
+    paginate_by = 10
+
+
+class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Project
