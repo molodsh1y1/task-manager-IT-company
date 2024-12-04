@@ -10,7 +10,8 @@ from .mixins import UserAssignedFormMixin
 from .forms import (
     CreateTaskForm,
     TaskTitleSearchForm,
-    ProjectNameSearchForm
+    ProjectNameSearchForm,
+    ProjectCreateForm
 )
 
 
@@ -154,8 +155,13 @@ class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
     model = Project
-    fields = ["name", "team"]
+    form_class = ProjectCreateForm
     success_url = reverse_lazy("todo:project-list")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
 
 class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):

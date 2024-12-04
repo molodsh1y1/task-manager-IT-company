@@ -68,6 +68,26 @@ class TaskTitleSearchForm(forms.Form):
     )
 
 
+class ProjectCreateForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ["name", "team"]
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter project name"
+                }
+            ),
+            "team": forms.Select(attrs={"class": "form-select"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+        self.fields["team"].queryset = Team.objects.filter(members=user)
+
+
 class ProjectNameSearchForm(forms.Form):
     name = forms.CharField(
         max_length=255,
