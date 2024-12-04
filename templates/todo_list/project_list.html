@@ -10,7 +10,7 @@
 			</form>
 		</div>
 		<div>
-			<a href="#" class="btn btn-primary">
+			<a href="{% url 'todo:project-create' %}" class="btn btn-primary">
 				Create Project
 			</a>
 		</div>
@@ -71,12 +71,12 @@
 							></a>
 						</td>
 						<td>
-							<a href="#"
+							<a href="{% url 'todo:project-update' pk=project.id %}"
 								><i class="fas fa-edit"></i>
 							</a>
 						</td>
 						<td>
-							<a href="#"
+							<a href="{% url 'todo:project-delete' pk=project.id %}"
 								><i class="fas fa-trash"></i
 							></a>
 						</td>

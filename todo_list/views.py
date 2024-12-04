@@ -148,3 +148,20 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
         title = self.request.GET.get("title", "")
         context["search_form"] = TaskTitleSearchForm(initial={"title": title})
         return context
+
+
+class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Project
+    fields = ["name", "team"]
+    success_url = reverse_lazy("todo:project-list")
+
+
+class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Project
+    fields = ["name", "team"]
+    success_url = reverse_lazy("todo:project-list")
+
+
+class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Project
+    success_url = reverse_lazy("todo:project-list")

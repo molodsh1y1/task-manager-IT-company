@@ -152,3 +152,8 @@ fabric.properties
 poetry.toml
 .ruff_cache/
 pyrightconfig.json
+
+### Node ###
+node_modules/
+package-lock.json
+package.json
