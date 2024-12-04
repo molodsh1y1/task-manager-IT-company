@@ -6,7 +6,6 @@ from .views import (
     TaskCreateView,
     TaskDeleteView,
     TaskUpdateView,
-    ToggleTaskStatusView,
     ProjectListView,
     ProjectDetailView,
     ProjectCreateView,
@@ -31,11 +30,6 @@ urlpatterns = [
         "tasks/<int:pk>/update/",
         TaskUpdateView.as_view(),
         name="task-update"
-    ),
-    path(
-        "tasks/<int:pk>/toggle-status/",
-        ToggleTaskStatusView.as_view(),
-        name="toggle-status"
     ),
     path("projects/", ProjectListView.as_view(), name="project-list"),
     path(

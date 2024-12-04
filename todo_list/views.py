@@ -21,6 +21,14 @@ class HomePageView(generic.TemplateView):
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
 
+    def post(self, request, *args, **kwargs):
+        task_id = request.POST.get("task_id")
+        if task_id:
+            task = get_object_or_404(Task, pk=task_id)
+            task.is_completed = not task.is_completed
+            task.save()
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+
     def get_queryset(self):
         title = self.request.GET.get("title")
 
@@ -85,18 +93,6 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     template_name = "todo_list/task_confirm_delete.html"
     success_url = reverse_lazy("todo:task-list")
-
-
-class ToggleTaskStatusView(
-    LoginRequiredMixin,
-    UserAssignedFormMixin,
-    generic.View
-):
-    def post(self, request, pk, *args, **kwargs):
-        task = get_object_or_404(Task, pk=pk)
-        task.is_completed = not task.is_completed
-        task.save()
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):
