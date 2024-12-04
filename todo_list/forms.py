@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Task, Team
+from .models import Task, Team, Project
 
 
 class CreateTaskForm(forms.ModelForm):
@@ -14,6 +14,7 @@ class CreateTaskForm(forms.ModelForm):
             "task_type",
             "tags",
             "is_completed",
+            "project",
             "team",
         ]
         widgets = {
@@ -41,6 +42,7 @@ class CreateTaskForm(forms.ModelForm):
                     "class": "form-check-input"
                 }
             ),
+            "project": forms.Select(attrs={"class": "form-select"}),
             "team": forms.Select(attrs={"class": "form-select"}),
         }
 
@@ -48,6 +50,9 @@ class CreateTaskForm(forms.ModelForm):
         user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
         self.fields["team"].queryset = Team.objects.filter(members=user)
+        self.fields["project"].queryset = Project.objects.filter(
+            team__members=user
+        )
 
 
 class TaskTitleSearchForm(forms.Form):
