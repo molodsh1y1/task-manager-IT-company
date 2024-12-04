@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     SignUpView,
     TeamListView,
-    TeamTaskDetailView,
+    TeamDetailView,
 )
 
 app_name = "accounts"
@@ -27,7 +27,7 @@ urlpatterns = [
     ),
     path(
         "teams/<int:pk>/detail/",
-        TeamTaskDetailView.as_view(),
+        TeamDetailView.as_view(),
         name="team-detail"
     ),
 ]

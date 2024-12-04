@@ -59,4 +59,3 @@ class RegisterFormTests(TestCase):
             "first_name", form.errors,
             "The error should mention the missing 'first_name' field."
         )
-

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+	<div class="d-flex justify-content-between align-items-center mb-2">
+		<div>
+			<form method="get">
+				{{ search_form|crispy }}
+				<input type="submit" value="Search" class="btn btn-secondary" />
+			</form>
+		</div>
+		<div>
+			<a href="#" class="btn btn-primary">
+				Create Project
+			</a>
+		</div>
+	</div>
+	{% if object_list %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Project Name</th>
+					<th scope="col">Short Description</th>
+					<th scope="col">Status</th>
+					<th scope="col">Team Name:</th>
+					<th scope="col">View</th>
+					<th scope="col">Edit</th>
+					<th scope="col">Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for project in object_list %}
+					<tr>
+						<th scope="row">{{ forloop.counter }}</th>
+						<td>
+							<div class="d-flex align-items-center">
+								<span class="text-capitalize">{{ project.name }}</span>
+							</div>
+						</td>
+						<td>
+							{% if project.description %}
+								{% if project.description_size > 20 %}
+								<div class="d-flex align-items-center">
+									<span class="text-capitalize">{{ project.description|slice:20 }}...</span>
+								</div>
+								{% else %}
+								<div class="d-flex align-items-center">
+									<span class="text-capitalize">{{ project.description }}</span>
+								</div>
+								{% endif %}
+								{% else %}
+								<div class="d-flex align-items-center">
+									<span class="text-capitalize">No Description</span>
+								</div>
+							{% endif %}
+						</td>
+						<td>
+							<div class="d-flex align-items-center">
+								<span class="text-capitalize">{{ project.status }}</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex align-items-center">
+								<span class="text-capitalize">{{ project.team.name }}</span>
+							</div>
+						</td>
+						<td>
+							<a href="{% url 'todo:project-detail' pk=project.id %}"
+								><i class="fas fa-search"></i
+							></a>
+						</td>
+						<td>
+							<a href="#"
+								><i class="fas fa-edit"></i>
+							</a>
+						</td>
+						<td>
+							<a href="#"
+								><i class="fas fa-trash"></i
+							></a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<div class="alert alert-warning text-center" role="alert">
+			You have not created any project yet.
+		</div>
+	{% endif %}
+{% endblock %}

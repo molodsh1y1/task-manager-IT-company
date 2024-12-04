@@ -6,8 +6,12 @@ from django.views import generic
 from django.db.models import Q
 
 from .models import Task, Project
-from .forms import CreateTaskForm, TaskTitleSearchForm
 from .mixins import UserAssignedFormMixin
+from .forms import (
+    CreateTaskForm,
+    TaskTitleSearchForm,
+    ProjectNameSearchForm
+)
 
 
 class HomePageView(generic.TemplateView):
@@ -99,6 +103,48 @@ class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
     paginate_by = 10
 
+    def get_queryset(self):
+        name = self.request.GET.get("name")
+
+        queryset = Project.objects.filter(
+            Q(team__members=self.request.user),
+        ).distinct()
+
+        queryset = queryset.select_related("team")
+
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+
+        context["search_form"] = ProjectNameSearchForm(initial={"name": name})
+        return context
+
 
 class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
+
+    def get_queryset(self):
+        title = self.request.GET.get("title")
+
+        queryset = Project.objects.filter(
+            team__members=self.request.user
+        ).distinct()
+
+        if title:
+            queryset = queryset.filter(tasks__title__icontains=title)
+
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = Task.objects.filter(project=self.object)
+        if tasks.exists():
+            context["tasks"] = tasks
+
+        title = self.request.GET.get("title", "")
+        context["search_form"] = TaskTitleSearchForm(initial={"title": title})
+        return context

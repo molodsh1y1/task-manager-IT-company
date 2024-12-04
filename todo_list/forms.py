@@ -61,3 +61,16 @@ class TaskTitleSearchForm(forms.Form):
             }
         ),
     )
+
+
+class ProjectNameSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Search by project name"
+            }
+        ),
+    )

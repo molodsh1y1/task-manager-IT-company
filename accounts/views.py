@@ -1,13 +1,13 @@
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from todo_list.forms import TaskTitleSearchForm
 from .forms import RegisterForm
 from .models import Team
-from todo_list.models import Task
+from todo_list.models import Project
 
 
 class SignUpView(generic.FormView):
@@ -28,32 +28,26 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return Team.objects.filter(
-            members=self.request.user
+            Q(members=self.request.user) |
+            Q(owner=self.request.user)
         ).prefetch_related('members')
 
 
-class TeamTaskDetailView(LoginRequiredMixin, generic.ListView):
-    model = Task
+class TeamDetailView(LoginRequiredMixin, generic.ListView):
+    model = Project
     template_name = "accounts/team_detail.html"
-    context_object_name = "tasks"
+    context_object_name = "projects"
 
     def get_queryset(self):
-        team = get_object_or_404(Team, pk=self.kwargs["pk"])
+        self.team = get_object_or_404(Team, pk=self.kwargs["pk"])
 
-        if not team.members.filter(pk=self.request.user.pk).exists():
-            raise PermissionError("You are not a member of this team")
-
-        title = self.request.GET.get("title")
-
-        if title:
-            return Task.objects.filter(team=team, title__icontains=title)
-
-        return Task.objects.filter(team=team)
+        if self.request.user in self.team.members.all():
+            return Project.objects.filter(
+                team=self.team
+            ).select_related("team")
+        return Project.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        title = self.request.GET.get("title", "")
-
-        context["search_form"] = TaskTitleSearchForm(initial={"title": title})
+        context["team"] = self.team
         return context

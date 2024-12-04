@@ -37,7 +37,7 @@ class Priority(models.TextChoices):
 
 
 class Project(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     status = models.CharField(
         max_length=20,
@@ -52,6 +52,9 @@ class Project(models.Model):
         blank=True,
         related_name="projects"
     )
+
+    def description_size(self):
+        return len(self.description)
 
     def __str__(self):
         return self.name
@@ -79,7 +82,14 @@ class Task(models.Model):
     )
     team = models.ForeignKey(
         Team,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="tasks",
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
         related_name="tasks",
