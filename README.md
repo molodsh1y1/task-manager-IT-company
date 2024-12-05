@@ -7,10 +7,11 @@ This is a task manager web application built in using Django. The application al
 
 ## Demo
 
-Live demo:
+Live demo: <a href="https://task-manager-it-company.onrender.com/">Task manager it company</a>
 
 Test credentials:
-
+- Username: user
+- Password: H.ieTuymVi_9NQw
 
 
 
