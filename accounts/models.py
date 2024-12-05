@@ -55,5 +55,5 @@ class TeamMembership(models.Model):
     def __str__(self) -> str:
         return (
             f"{self.worker} in {self.team}, as "
-            f"{self.role if self.role else "member"}"
+            f"{self.role if self.role else 'member'}"
         )
