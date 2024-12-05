@@ -43,7 +43,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
             queryset = queryset.filter(title__icontains=title)
         return queryset
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
 
         title = self.request.GET.get("title", "")
@@ -98,14 +98,14 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
-    paginate_by = 10
 
     def get_queryset(self):
         name = self.request.GET.get("name")
 
         queryset = Project.objects.filter(
-            Q(team__members=self.request.user),
-        ).distinct()
+            Q(team__members=self.request.user) |
+            Q(owner=self.request.user)
+        ).prefetch_related("owner").distinct()
 
         queryset = queryset.select_related("team")
 
@@ -128,7 +128,8 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
         title = self.request.GET.get("title")
 
         queryset = Project.objects.filter(
-            team__members=self.request.user
+            Q(team__members=self.request.user) |
+            Q(owner=self.request.user)
         ).distinct()
 
         if title:
@@ -149,8 +150,13 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
 
 class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Project
-    fields = ["name", "team"]
+    form_class = ProjectCreateForm
     success_url = reverse_lazy("todo:project-list")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
 
 class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
@@ -162,6 +168,10 @@ class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
         return kwargs
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
 
 class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):

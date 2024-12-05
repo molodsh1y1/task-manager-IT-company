@@ -51,10 +51,7 @@
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <form method="post" action="{% url 'accounts:logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Logout</button>
-          </form>
+          {% include 'accounts/logout.html' %}
         </li>
         {% else %}
         <li class="nav-item">

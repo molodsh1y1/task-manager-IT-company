@@ -47,9 +47,15 @@ class Project(models.Model):
 
     team = models.ForeignKey(
         Team,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
+        related_name="projects"
+    )
+
+    owner = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
         related_name="projects"
     )
 

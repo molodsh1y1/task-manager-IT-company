@@ -71,7 +71,7 @@ class TaskTitleSearchForm(forms.Form):
 class ProjectCreateForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ["name", "team"]
+        fields = ["name", "description", "status", "team"]
         widgets = {
             "name": forms.TextInput(
                 attrs={
@@ -79,6 +79,14 @@ class ProjectCreateForm(forms.ModelForm):
                     "placeholder": "Enter project name"
                 }
             ),
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                    "placeholder": "Project description"
+                }
+            ),
+            "status": forms.Select(attrs={"class": "form-select"}),
             "team": forms.Select(attrs={"class": "form-select"}),
         }
 

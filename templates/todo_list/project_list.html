@@ -21,6 +21,7 @@
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">Project Name</th>
+					<th scope="col">Owner</th>
 					<th scope="col">Short Description</th>
 					<th scope="col">Status</th>
 					<th scope="col">Team Name:</th>
@@ -36,6 +37,11 @@
 						<td>
 							<div class="d-flex align-items-center">
 								<span class="text-capitalize">{{ project.name }}</span>
+							</div>
+						</td>
+						<td>
+							<div class="d-flex align-items-center">
+								<span class="text-capitalize">{{ project.owner.username }}</span>
 							</div>
 						</td>
 						<td>
