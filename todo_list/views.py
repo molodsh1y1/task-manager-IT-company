@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.db.models import Q
 
+from accounts.models import Team
 from .models import Task, Project
 from .mixins import UserAssignedFormMixin
 from .forms import (
@@ -17,6 +18,15 @@ from .forms import (
 
 class HomePageView(generic.TemplateView):
     template_name = "todo_list/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["task_num"] = Task.objects.count()
+        context["project_num"] = Project.objects.count()
+        context["team_num"] = Team.objects.count()
+
+        return context
 
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
@@ -57,8 +67,6 @@ class TaskDetailView(
     UserAssignedFormMixin,
     generic.DetailView
 ):
-    model = Task
-
     def get_queryset(self):
         queryset = Task.objects.filter(
             Q(assignees=self.request.user) |
@@ -85,9 +93,18 @@ class TaskUpdateView(
     UserAssignedFormMixin,
     generic.UpdateView
 ):
-    model = Task
     form_class = CreateTaskForm
     success_url = reverse_lazy("todo:task-list")
+
+    def get_queryset(self):
+        queryset = Task.objects.filter(
+            Q(assignees=self.request.user) |
+            Q(created_by=self.request.user) |
+            Q(team__members=self.request.user)
+        ).distinct()
+
+        queryset = queryset.select_related("created_by")
+        return queryset
 
 
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -104,8 +121,8 @@ class ProjectListView(LoginRequiredMixin, generic.ListView):
 
         queryset = Project.objects.filter(
             Q(team__members=self.request.user) |
-            Q(owner=self.request.user)
-        ).prefetch_related("owner").distinct()
+            Q(created_by=self.request.user)
+        ).prefetch_related("created_by").distinct()
 
         queryset = queryset.select_related("team")
 
@@ -129,7 +146,7 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
 
         queryset = Project.objects.filter(
             Q(team__members=self.request.user) |
-            Q(owner=self.request.user)
+            Q(created_by=self.request.user)
         ).distinct()
 
         if title:
@@ -148,32 +165,30 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
         return context
 
 
-class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
+class ProjectUpdateView(
+    LoginRequiredMixin,
+    UserAssignedFormMixin,
+    generic.UpdateView
+):
     model = Project
     form_class = ProjectCreateForm
     success_url = reverse_lazy("todo:project-list")
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
-        return kwargs
 
-
-class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
+class ProjectCreateView(
+    LoginRequiredMixin,
+    UserAssignedFormMixin,
+    generic.CreateView
+):
     model = Project
     form_class = ProjectCreateForm
     success_url = reverse_lazy("todo:project-list")
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
-        return kwargs
 
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super().form_valid(form)
-
-
-class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
+class ProjectDeleteView(
+    LoginRequiredMixin,
+    UserAssignedFormMixin,
+    generic.DeleteView
+):
     model = Project
     success_url = reverse_lazy("todo:project-list")

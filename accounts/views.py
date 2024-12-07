@@ -31,7 +31,7 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         queryset = Team.objects.filter(
             Q(members=self.request.user) |
-            Q(owner=self.request.user)
+            Q(created_by=self.request.user)
         ).prefetch_related('members')
 
         name = self.request.GET.get("name", "")
@@ -39,13 +39,12 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
         if name:
             queryset = queryset.filter(name__icontains=name)
 
-        queryset = queryset.select_related("owner")
+        queryset = queryset.select_related("created_by")
         return queryset.distinct()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         name = self.request.GET.get("name", "")
-        print(f"Name parameter: {name}")
         context["search_form"] = TeamNameSearchForm(
             initial={"name": name}
         )
@@ -83,7 +82,7 @@ class TeamCreateView(LoginRequiredMixin, generic.CreateView):
         return kwargs
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        form.instance.created_by = self.request.user
         members = form.cleaned_data.pop("members", [])
         team = form.save()
 
@@ -122,8 +121,8 @@ class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
 
         new_members = list(form.cleaned_data["members"])
 
-        if team.owner not in new_members:
-            new_members.append(team.owner)
+        if team.created_by not in new_members:
+            new_members.append(team.created_by)
 
         existing_members = set(team.members.all())
 

@@ -53,7 +53,7 @@ class Project(models.Model):
         related_name="projects"
     )
 
-    owner = models.ForeignKey(
+    created_by = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name="projects"
