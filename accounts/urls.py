@@ -6,13 +6,17 @@ from .views import (
     TeamDetailView,
     TeamCreateView,
     TeamUpdateView,
-    TeamDeleteView
+    TeamDeleteView,
 )
 
 app_name = "accounts"
 
 urlpatterns = [
-    path("register/", SignUpView.as_view(), name="sign_up"),
+    path(
+        "register/",
+        SignUpView.as_view(),
+        name="sign_up"
+    ),
     path(
         "login/",
         LoginView.as_view(template_name="accounts/login.html"),

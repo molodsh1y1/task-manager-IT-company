@@ -9,7 +9,7 @@ from accounts.models import Team
 from .models import Task, Project
 from .mixins import UserAssignedFormMixin
 from .forms import (
-    CreateTaskForm,
+    TaskCreateForm,
     TaskTitleSearchForm,
     ProjectNameSearchForm,
     ProjectCreateForm
@@ -31,6 +31,7 @@ class HomePageView(generic.TemplateView):
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
+    paginate_by = 15
 
     def post(self, request, *args, **kwargs):
         task_id = request.POST.get("task_id")
@@ -83,7 +84,7 @@ class TaskCreateView(
     UserAssignedFormMixin,
     generic.CreateView
 ):
-    form_class = CreateTaskForm
+    form_class = TaskCreateForm
     template_name = "todo_list/task_form.html"
     success_url = reverse_lazy("todo:task-list")
 
@@ -93,7 +94,7 @@ class TaskUpdateView(
     UserAssignedFormMixin,
     generic.UpdateView
 ):
-    form_class = CreateTaskForm
+    form_class = TaskCreateForm
     success_url = reverse_lazy("todo:task-list")
 
     def get_queryset(self):
