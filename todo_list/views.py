@@ -31,7 +31,7 @@ class HomePageView(generic.TemplateView):
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
-    paginate_by = 15
+    paginate_by = 10
 
     def post(self, request, *args, **kwargs):
         task_id = request.POST.get("task_id")
@@ -116,6 +116,7 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
+    paginate_by = 10
 
     def get_queryset(self):
         name = self.request.GET.get("name")
