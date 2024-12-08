@@ -189,7 +189,6 @@ class ProjectCreateView(
 
 class ProjectDeleteView(
     LoginRequiredMixin,
-    UserAssignedFormMixin,
     generic.DeleteView
 ):
     model = Project

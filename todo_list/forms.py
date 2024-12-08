@@ -91,7 +91,7 @@ class ProjectCreateForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop("user")
+        user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
         self.fields["team"].queryset = Team.objects.filter(members=user)
 

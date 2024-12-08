@@ -1,4 +1,3 @@
-
 class UserAssignedFormMixin:
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

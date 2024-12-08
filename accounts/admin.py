@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from .models import Worker, Team, TeamMembership
+from .models import (
+    Worker,
+    Team,
+    TeamMembership
+)
 
 
 class WorkerAdmin(admin.ModelAdmin):

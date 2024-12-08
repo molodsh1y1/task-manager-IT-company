@@ -7,9 +7,13 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import RegisterForm, TeamCreateForm, TeamNameSearchForm
-from .models import Team, TeamMembership
 from todo_list.models import Project
+from .models import Team, TeamMembership
+from .forms import (
+    RegisterForm,
+    TeamCreateForm,
+    TeamNameSearchForm
+)
 
 
 class SignUpView(generic.FormView):
