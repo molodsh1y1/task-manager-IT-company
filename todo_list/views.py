@@ -149,7 +149,7 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
         queryset = Project.objects.filter(
             Q(team__members=self.request.user) |
             Q(created_by=self.request.user)
-        ).distinct()
+        ).select_related("created_by").distinct()
 
         if title:
             queryset = queryset.filter(tasks__title__icontains=title)

@@ -15,3 +15,6 @@ package.json
 
 ### Neondb ###
 neondb
+
+### Coverage ###
+.coverage
