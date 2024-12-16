@@ -8,8 +8,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from todo_list.models import Project
-from .models import Team, TeamMembership
-from .forms import (
+from accounts.models import Team, TeamMembership
+from accounts.forms import (
     RegisterForm,
     TeamCreateForm,
     TeamNameSearchForm
@@ -36,7 +36,7 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
         queryset = Team.objects.filter(
             Q(members=self.request.user) |
             Q(created_by=self.request.user)
-        ).prefetch_related('members')
+        ).prefetch_related("members")
 
         name = self.request.GET.get("name", "")
 

@@ -15,10 +15,10 @@ class Tag(models.Model):
 
 class Status(models.TextChoices):
     """Choices for the status of a project."""
-    NOT_STARTED = 'NOT_STARTED', 'Not Started'
-    IN_PROGRESS = 'IN_PROGRESS', 'In Progress'
-    COMPLETED = 'COMPLETED', 'Completed'
-    BLOCKED = 'BLOCKED', 'Blocked'
+    NOT_STARTED = "NOT_STARTED", "Not Started"
+    IN_PROGRESS = "IN_PROGRESS", "In Progress"
+    COMPLETED = "COMPLETED", "Completed"
+    BLOCKED = "BLOCKED", "Blocked"
 
 
 class TaskType(models.TextChoices):
@@ -32,9 +32,9 @@ class TaskType(models.TextChoices):
 
 class Priority(models.TextChoices):
     """Choices for task priority"""
-    LOW = 'LOW', 'Low'
-    MEDIUM = 'MEDIUM', 'Medium'
-    HIGH = 'HIGH', 'High'
+    LOW = "LOW", "Low"
+    MEDIUM = "MEDIUM", "Medium"
+    HIGH = "HIGH", "High"
 
 
 class Project(models.Model):

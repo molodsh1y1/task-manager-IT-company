@@ -6,9 +6,9 @@ from django.views import generic
 from django.db.models import Q
 
 from accounts.models import Team
-from .models import Task, Project
-from .mixins import UserAssignedFormMixin
-from .forms import (
+from todo_list.models import Task, Project
+from todo_list.mixins import UserAssignedFormMixin
+from todo_list.forms import (
     TaskCreateForm,
     TaskTitleSearchForm,
     ProjectNameSearchForm,

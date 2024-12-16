@@ -18,3 +18,6 @@ neondb
 
 ### Coverage ###
 .coverage
+
+### Flake ###
+.flake8

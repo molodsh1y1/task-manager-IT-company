@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import (
+from accounts.models import (
     Worker,
     Team,
     TeamMembership
@@ -8,13 +8,13 @@ from .models import (
 
 
 class WorkerAdmin(admin.ModelAdmin):
-    list_display = ('username', 'position', 'email', 'first_name', 'last_name')
-    search_fields = ('username', 'email', 'first_name', 'last_name')
+    list_display = ("username", "position", "email", "first_name", "last_name")
+    search_fields = ("username", "email", "first_name", "last_name")
 
 
 class TeamMembershipAdmin(admin.ModelAdmin):
-    list_display = ('worker', 'team', 'role', 'joined_at', 'is_active')
-    search_fields = ('worker__username', 'team__name')
+    list_display = ("worker", "team", "role", "joined_at", "is_active")
+    search_fields = ("worker__username", "team__name")
 
 
 admin.site.register(Worker, WorkerAdmin)

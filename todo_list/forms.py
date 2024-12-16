@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Task, Team, Project
+from todo_list.models import Task, Team, Project
 
 
 class TaskCreateForm(forms.ModelForm):
