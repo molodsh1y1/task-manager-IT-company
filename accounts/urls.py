@@ -37,7 +37,7 @@ urlpatterns = [
         name="team-list"
     ),
     path(
-        "teams/<int:pk>/detail/",
+        "teams/<int:pk>/",
         TeamDetailView.as_view(),
         name="team-detail"
     ),

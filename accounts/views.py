@@ -58,27 +58,26 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class TeamDetailView(LoginRequiredMixin, generic.ListView):
-    model = Project
+class TeamDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Team
     template_name = "accounts/team_detail.html"
-    context_object_name = "projects"
+    context_object_name = "team"
     paginate_by = 10
 
     def get_queryset(self):
-        self.team = get_object_or_404(
-            Team.objects.select_related("created_by"),
-            pk=self.kwargs["pk"]
-        )
-
-        if self.request.user in self.team.members.all():
-            return Project.objects.filter(
-                team=self.team
-            ).select_related("team", "created_by")
-        return Project.objects.none()
+        return Team.objects.select_related("created_by")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["team"] = self.team
+        team = self.object
+
+        if self.request.user in team.members.all():
+            context["projects"] = Project.objects.filter(
+                team=team
+            ).select_related("team", "created_by")
+        else:
+            context["projects"] = Project.objects.none()
+
         return context
 
 
