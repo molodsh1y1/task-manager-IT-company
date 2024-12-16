@@ -62,6 +62,7 @@ Visit http://127.0.0.1:8000/ in your browser to view the application.
 To run this project, you will need to add the following environment variables to your .env file
 
 ```bash
+DJANGO_SETTINGS_MODULE=<your_settings_module> # Path to the Django settings module
 SECRET_KEY=<your_secret_key>  # Django secret key for the project (keep it secret)
 DEBUG=<True_or_False>     # Set to True for development, False for production
 POSTGRES_DB=<db_name>    # Name of your PostgreSQL database
