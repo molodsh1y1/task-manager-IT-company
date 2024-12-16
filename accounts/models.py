@@ -25,15 +25,15 @@ class Worker(AbstractUser):
 class Team(models.Model):
     name = models.CharField(max_length=255, unique=True)
     members = models.ManyToManyField(
-        "Worker",
+        Worker,
         related_name="teams",
         through="TeamMembership"
     )
     created_by = models.ForeignKey(
-        "Worker",
+        Worker,
         on_delete=models.SET_NULL,
         null=True,
-        related_name="owned_teams",
+        related_name="owned_teams"
     )
 
     def get_member_count(self) -> int:
@@ -44,8 +44,16 @@ class Team(models.Model):
 
 
 class TeamMembership(models.Model):
-    worker = models.ForeignKey(Worker, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    worker = models.ForeignKey(
+        Worker,
+        on_delete=models.CASCADE,
+        related_name="team_memberships"
+    )
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name="team_memberships"
+    )
     joined_at = models.DateTimeField(auto_now_add=True)
     role = models.CharField(max_length=50, null=True, blank=True)
     is_active = models.BooleanField(default=True)
