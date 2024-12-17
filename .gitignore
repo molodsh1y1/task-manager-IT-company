@@ -1,0 +1,23 @@
+### Django ###
+__pycache__/
+db.sqlite3
+
+
+### Django.Python Stack ###
+.env
+.venv
+.idea
+
+### Node ###
+node_modules/
+package-lock.json
+package.json
+
+### Neondb ###
+neondb
+
+### Coverage ###
+.coverage
+
+### Flake ###
+.flake8

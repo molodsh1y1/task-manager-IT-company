@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <div>
+      <form method="get" action="">
+        {{ search_form|crispy }}
+        <input type="submit" value="Search" class="btn btn-secondary" />
+      </form>
+    </div>
+    <div>
+      <a href="{% url 'accounts:team-create' %}" class="btn btn-primary">
+        Create Team
+      </a>
+    </div>
+  </div>
+  {% if object_list %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Team Name:</th>
+          <th scope="col">Owner</th>
+          <th scope="col">Members Quantity</th>
+          <th scope="col">View</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for team in object_list %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>
+              <div class="d-flex align-items-center">
+                <span class="text-capitalize">{{ team.name }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <span class="text-capitalize">{{ team.created_by.username }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <span class="text-capitalize">{{ team.get_member_count }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <a href="{% url 'accounts:team-detail' pk=team.id %}"
+                ><i class="fas fa-search"></i
+                  ></a>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <a href="{% url 'accounts:team-update' pk=team.id %}"
+                  ><i class="fas fa-edit"></i>
+                  </a>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <a href="{% url 'accounts:team-delete' pk=team.id %}"
+                  ><i class="fas fa-trash"></i
+                    ></a>
+                  </div>
+                </td>
+              </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-warning text-center" role="alert">
+      You have not created any team yet.
+    </div>
+  {% endif %}
+{% endblock %}

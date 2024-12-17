@@ -1,0 +1,45 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: acumin-pro, system-ui, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Гарантує, що body буде займати всю висоту екрану */
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #fff;
+  border-top: 1px solid #e5e5e5;
+  margin-top: auto; /* Важливо для прикріплення футера до низу */
+}
+
+.footer__logo {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.2rem;
+  text-transform: lowercase;
+}
+
+.footer__btn {
+  background-color: rgb(33, 33, 33, 0.07);
+  border-radius: 100px;
+  color: #2f2f2f;
+  font-size: 0.9rem;
+  padding: 0 1em;
+  text-decoration: none;
+}
+
+.legal {
+  color: #999;
+}
+
+.heart {
+  color: #2f2f2f;
+}
