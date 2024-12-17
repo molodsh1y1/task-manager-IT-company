@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -94,24 +95,26 @@ class TeamCreateView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         members = form.cleaned_data.pop("members", [])
-        team = form.save()
 
-        TeamMembership.objects.create(
-            team=team,
-            worker=self.request.user,
-            role=self.request.user.position,
-            joined_at=datetime.now(),
-            is_active=True
-        )
+        with transaction.atomic():
+            team = form.save()
 
-        for member in members:
             TeamMembership.objects.create(
                 team=team,
-                worker=member,
-                role=member.position,
+                worker=self.request.user,
+                role=self.request.user.position,
                 joined_at=datetime.now(),
                 is_active=True
             )
+
+            for member in members:
+                TeamMembership.objects.create(
+                    team=team,
+                    worker=member,
+                    role=member.position,
+                    joined_at=datetime.now(),
+                    is_active=True
+                )
 
         return super().form_valid(form)
 
