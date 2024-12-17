@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <h2 class="text-center text-danger">
-        Are you sure you want to delete this project?
-      </h2>
-			<h3 class="card-title">{{ project.name }}</h3>
-			<p><strong>Description:</strong> {{ project.description }}</p>
-			<p><strong>Status:</strong> {{ project.status }}</p>
-      <div class="d-flex justify-content-between mt-4">
-        <form method="post" class="d-inline">
-          {% csrf_token %}
-          <input type="submit" value="Delete" class="btn btn-danger btn-lg" />
-        </form>
-        <a href="{% url 'todo:project-list' %}" class="btn btn-secondary btn-lg"
+  <div class="container mt-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="text-center text-danger">
+          Are you sure you want to delete this project?
+        </h2>
+        <h3 class="card-title">{{ project.name }}</h3>
+        <p><strong>Description:</strong> {{ project.description }}</p>
+        <p><strong>Status:</strong> {{ project.status }}</p>
+        <div class="d-flex justify-content-between mt-4">
+          <form method="post" class="d-inline">
+            {% csrf_token %}
+            <input type="submit" value="Delete" class="btn btn-danger btn-lg" />
+          </form>
+          <a href="{% url 'todo:project-list' %}" class="btn btn-secondary btn-lg"
           >Cancel</a
-        >
+            >
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 {% endblock %}

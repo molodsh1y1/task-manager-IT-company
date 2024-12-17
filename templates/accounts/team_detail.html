@@ -2,84 +2,84 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-<div class="container mt-4">
-  <div class="card mb-4">
-    <div class="card-header bg-primary text-white">
-      <h2 class="mb-0">Team: {{ team.name }}</h2>
-    </div>
-    <div class="card-body">
-      <p><strong>Created by:</strong> {{ team.created_by.username }}</p>
-      <p>
-        <strong>Description:</strong>
-				{{ team.description|default:"No description available." }}
-      </p>
-      <p><strong>Number of Members:</strong> {{ team.members.count }}</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div
-      class="card-header bg-secondary text-white d-flex justify-content-between align-items-center"
-    >
-      <h3 class="mb-0">Projects</h3>
-      <a href="{% url 'todo:project-create' %}" class="btn btn-primary btn-sm"
-        >Create Project</a
-      >
-    </div>
-    <div class="card-body">
-      {% if projects %}
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Project Name</th>
-            <th scope="col">Owner</th>
-            <th scope="col">Short Description</th>
-            <th scope="col">Status</th>
-            <th scope="col">View</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for project in projects %}
-          <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ project.name }}</td>
-            <td>{{ project.created_by.username }}</td>
-            <td>
-              {% if project.description %}
-								{{project.description|truncatechars:20 }}
-							{% else %}
-              <em>No description</em>
-              {% endif %}
-            </td>
-            <td>{{ project.status }}</td>
-            <td>
-              <a href="{% url 'todo:project-detail' pk=project.id %}"
-                ><i class="fas fa-search"></i
-              ></a>
-            </td>
-            <td>
-              <a href="{% url 'todo:project-update' pk=project.id %}"
-                ><i class="fas fa-edit"></i>
-              </a>
-            </td>
-            <td>
-              <a href="{% url 'todo:project-delete' pk=project.id %}"
-                ><i class="fas fa-trash"></i
-              ></a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% else %}
-      <div class="alert alert-warning text-center" role="alert">
-        No projects found for this team. Start by creating one!
+  <div class="container mt-4">
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Team: {{ team.name }}</h2>
       </div>
-      {% endif %}
+      <div class="card-body">
+        <p><strong>Created by:</strong> {{ team.created_by.username }}</p>
+        <p>
+          <strong>Description:</strong>
+          {{ team.description|default:"No description available." }}
+        </p>
+        <p><strong>Number of Members:</strong> {{ team.members.count }}</p>
+      </div>
     </div>
-  </div>
-</div>
+
+    <div class="card">
+      <div
+        class="card-header bg-secondary text-white d-flex justify-content-between align-items-center"
+      >
+        <h3 class="mb-0">Projects</h3>
+        <a href="{% url 'todo:project-create' %}" class="btn btn-primary btn-sm"
+        >Create Project</a
+          >
+        </div>
+        <div class="card-body">
+          {% if projects %}
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Project Name</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Short Description</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">View</th>
+                  <th scope="col">Edit</th>
+                  <th scope="col">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for project in projects %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.created_by.username }}</td>
+                    <td>
+                      {% if project.description %}
+                        {{project.description|truncatechars:20 }}
+                      {% else %}
+                        <em>No description</em>
+                      {% endif %}
+                    </td>
+                    <td>{{ project.status }}</td>
+                    <td>
+                      <a href="{% url 'todo:project-detail' pk=project.id %}"
+                      ><i class="fas fa-search"></i
+                        ></a>
+                      </td>
+                      <td>
+                        <a href="{% url 'todo:project-update' pk=project.id %}"
+                        ><i class="fas fa-edit"></i>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="{% url 'todo:project-delete' pk=project.id %}"
+                        ><i class="fas fa-trash"></i
+                          ></a>
+                        </td>
+                      </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <div class="alert alert-warning text-center" role="alert">
+              No projects found for this team. Start by creating one!
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
 {% endblock %}

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     {% block title %}
-    <title>To-Do List</title>
+      <title>To-Do List</title>
     {% endblock %}
     <meta charset="UTF-8" />
     <meta
@@ -19,19 +19,19 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   </head>
 
   <body>
     {% block navbar %} {% include 'includes/navbar.html' %} {% endblock %}
-		<div class="container-fluid">{% block content %} {% endblock %}</div>
+    <div class="container-fluid">{% block content %} {% endblock %}</div>
     <script src="https://unpkg.com/htmx.org@1.1.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-  	{% block pagination %}
-			{% include "includes/pagination.html" %}
-		{% endblock %}
-	</body>
-	{% block footer %} {% include 'includes/footer.html' %} {% endblock %}
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    {% block pagination %}
+      {% include "includes/pagination.html" %}
+    {% endblock %}
+  </body>
+  {% block footer %} {% include 'includes/footer.html' %} {% endblock %}
 </html>
