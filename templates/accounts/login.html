@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block title %}<title>Login</title>{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card p-4 shadow-lg" style="max-width: 500px; width: 100%">
+      <h2 class="text-center mb-4">Login</h2>
+      <form method="post" class="form-signin border border-primary rounded p-4">
+        {% csrf_token %} {{ form|crispy }}
+
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+        </div>
+
+        <div class="text-center mt-3">
+          <p>Don't have an account?</p>
+          <a href="{% url 'accounts:sign_up' %}" class="btn btn-link">Sign Up</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

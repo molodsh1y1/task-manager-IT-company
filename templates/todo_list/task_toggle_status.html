@@ -1,0 +1,11 @@
+<form method="post" action="{% url 'todo:task-list' %}">
+  {% csrf_token %}
+  <input type="hidden" name="task_id" value="{{ task.id }}">
+  {% if task.is_completed %}
+    <span class="text-success">✔</span>
+    <input type="submit" class="btn btn-danger float-end" value="Mark as Incomplete">
+  {% else %}
+    <span class="text-danger">✖</span>
+    <input type="submit" class="btn btn-success float-end" value="Mark as Completed">
+  {% endif %}
+</form>
